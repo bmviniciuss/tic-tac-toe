@@ -1,29 +1,25 @@
 #include <stdio.h>
 
 int tam = 3; // board size
-enum status{CONTINUE, WON, LOST}; //game status
+enum status {CONTINUE, WON, LOST}; //game status
 
 //functions
 void printBoard(char board[tam][tam], int tam);
 void resetBoard(char board[tam][tam], int tam);
 char playerInput(void);
 char playerType(void);
+char otherPlayerType(char p1Type);
 
 int main(){
     char board[tam][tam], p1Type, p2Type;
     int lin, col, turn;
+    enum gameStatus;
+    gameStatus = CONTINUE;
 
     // printf("Player 1, 'X' or 'O'? ");
 
     p1Type = playerType();
-    switch(p1Type){
-        case 'X':
-            p2Type = 'O';
-            break;
-        case 'O':
-            p2Type = 'X';
-            break;
-    }
+    p2Type = otherPlayerType(p1Type);
 
     printf("P1 = %c\n", p1Type);
     printf("P2 = %c\n", p2Type);
@@ -84,4 +80,18 @@ char playerType(void){
             break;
         }
     }
+}
+
+//second player type
+char otherPlayerType(char p1Type){
+    char p2Type;
+    switch(p1Type){
+        case 'X':
+            p2Type = 'O';
+            break;
+        case 'O':
+            p2Type = 'X';
+            break;
+    }
+    return p2Type;
 }
