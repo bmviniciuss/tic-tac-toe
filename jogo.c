@@ -13,8 +13,6 @@ char otherPlayerType(char p1Type);
 int main(){
     char board[tam][tam], p1Type, p2Type;
     int lin, col, turn;
-    enum gameStatus;
-    gameStatus = CONTINUE;
 
     // printf("Player 1, 'X' or 'O'? ");
 
