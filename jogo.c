@@ -26,12 +26,14 @@ int main(){
 
     p1Type = playerType(); //p1 type
     p2Type = otherPlayerType(p1Type); //p2 type
+
     srand(time( NULL )); //randomize turn
     turn = 1 + rand()%2; // random turn
     /*
     turn == 1 - player 1 turn
     turn == 2 - player 2 turn
     */
+
     gameOn = 1;//set games on to 1 - True
     resetBoard(board, tam);
 
@@ -48,10 +50,11 @@ int main(){
 
                     if(validPlay(board, tam, pInput)){ //check if local is valid
                         board[inputLin(pInput)][inputCol(pInput)] = p1Type;
+                        clearScreen();
                         break;
                     }
                     else{
-                        printf("This play is not valid. Try Again\n");
+                        printf("This position is not a valid one. Try Again\n");
                         continue;
                     }
                 }
@@ -90,10 +93,11 @@ int main(){
 
                     if(validPlay(board, tam, pInput)){ //check if local is valid
                         board[inputLin(pInput)][inputCol(pInput)] = p2Type;
+                        clearScreen();
                         break;
                     }
                     else{
-                        printf("This play is not valid. Try Again\n");
+                        printf("This position is not a valid one. Try Again\n");
                         continue;
                     }
                 }
@@ -148,7 +152,6 @@ void resetBoard(char board[tam][tam], int tam){
         for(col =0; col < tam; col++){
             board[lin][col]= '-';
         }
-        printf("\n");
     }
 }
 
