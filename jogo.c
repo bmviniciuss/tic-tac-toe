@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-int tam = 3; // board size
-
+int tam = 3; // board size. DO NOT CHANGE
 
 //functions
 void printBoard(char board[tam][tam], int tam);
@@ -16,32 +15,38 @@ int playerInput(int player);
 int validPlay(char board[tam][tam], int tam, int number);
 int inputLin(int number);
 int inputCol(int number);
+int checkWin(char board[tam][tam], int tam, char type);
+void clearScreen(void); //have to ajust for WINDOWS AND LINUX
 
+//main
 int main(){
     char board[tam][tam], p1Type, p2Type;
     int lin, col, turn;
     int gameOn, pInput;
-    // printf("Player 1, 'X' or 'O'? ");
 
-    p1Type = playerType();
-    p2Type = otherPlayerType(p1Type);
-    srand(time( NULL ));
-    turn = 1 + rand()%2;
+    p1Type = playerType(); //p1 type
+    p2Type = otherPlayerType(p1Type); //p2 type
+    srand(time( NULL )); //randomize turn
+    turn = 1 + rand()%2; // random turn
     /*
-    turn 1 - player 1 turn
-    turn 2 - player 2 turn
+    turn == 1 - player 1 turn
+    turn == 2 - player 2 turn
     */
     gameOn = 1;//set games on to 1 - True
     resetBoard(board, tam);
+
     while(gameOn){ //game begins
         if(turn == 1){ // player 1 turn
+            clearScreen();
             printf("Player's 1 Turn\n");
             printBoard(board, tam);
+
             if(!checkFull(board, tam)){ // board not full
                 while(1){
+
                     pInput = playerInput(turn); //player's input
-                    printf("JOGADA: %d\n", pInput);
-                    if(validPlay(board, tam, pInput)){
+
+                    if(validPlay(board, tam, pInput)){ //check if local is valid
                         board[inputLin(pInput)][inputCol(pInput)] = p1Type;
                         break;
                     }
@@ -50,19 +55,79 @@ int main(){
                         continue;
                     }
                 }
+
+                clearScreen();
                 printBoard(board, tam);
+
                 //check win
-                turn = 2;
+                if(!checkFull(board, tam)){ //board not full
+                    if(checkWin(board, tam, p1Type)){ //player 1 won
+                        printf("Congratulations Player 1!!! You WON!!!\n");
+                        gameOn = 0; //game finished
+                    }
+                    else{
+                        turn = 2; // turn 2
+                    }
+                }
+
             }
-            else{
+            else{ // board full
+                printf("GAME TIE.\n");
                 gameOn = 0;
             }
         }
         else{ /*player 2 turn*/
-        break;}
+
+            clearScreen(); // clear screen
+
+            printf("Player's 2 Turn\n");
+            printBoard(board, tam); //print board
+
+            if(!checkFull(board, tam)){ // board not full
+                while(1){
+
+                    pInput = playerInput(turn); //player's input
+
+                    if(validPlay(board, tam, pInput)){ //check if local is valid
+                        board[inputLin(pInput)][inputCol(pInput)] = p2Type;
+                        break;
+                    }
+                    else{
+                        printf("This play is not valid. Try Again\n");
+                        continue;
+                    }
+                }
+
+                printBoard(board, tam);
+
+                //check win
+                if(!checkFull(board, tam)){ //board not full
+                    if(checkWin(board, tam, p2Type)){ //player 2 won
+                        printf("Congratulations Player 2!!! You WON!!!\n");
+                        gameOn = 0; //game finished
+                    }
+                    else{
+                        turn = 1; // turn 1
+                    }
+                }
+
+            }
+            else{ // board full
+                printf("GAME TIE.\n");
+                gameOn = 0; //end game
+            }
+
+        }
     }
 
+    //system("pause"); //use on WINDOWS
     return 0;
+}
+
+//clear screen
+void clearScreen(void){
+    system("clear"); //use on linux
+    // system("cls"); //use on windows
 }
 
 //print the board
@@ -265,6 +330,7 @@ int validPlay(char board[tam][tam], int tam, int number){
             break;
     }
 }
+
 //give input lin
 int inputLin(int number){
     if(number == 7 || number == 8 ||number == 9){
@@ -277,6 +343,7 @@ int inputLin(int number){
         return 2;
     }
 }
+
 //give input col
 int inputCol(int number){
     if(number == 7 || number == 4 ||number == 1){
@@ -287,5 +354,38 @@ int inputCol(int number){
     }
     else if(number == 9 || number == 6 ||number == 3){
         return 2;
+    }
+}
+
+//check if its a win by type
+int checkWin(char board[tam][tam], int tam, char type){
+    //horizontals
+    if(board[0][0] == type && board[0][1] == type && board[0][2] == type){
+        return 1;
+    }
+    else if(board[1][0] == type && board[1][1] == type && board[1][2] == type){
+        return 1;
+    }
+    else if(board[2][0] == type && board[2][1] == type && board[2][2] == type){
+        return 1;
+    }
+    //verticals
+    else if(board[0][0] == type && board[1][0] == type && board[2][0] == type){
+        return 1;
+    }
+    else if(board[0][1] == type && board[1][1] == type && board[2][1] == type){
+        return 1;
+    }
+    else if(board[0][2] == type && board[1][2] == type && board[2][2] == type){
+        return 1;
+    }
+    else if(board[0][0] == type && board[1][1] == type && board[2][2] == type){
+        return 1;
+    }
+    else if(board[2][0] == type && board[1][1] == type && board[0][2] == type){
+        return 1;
+    }
+    else{
+        return 0;
     }
 }
