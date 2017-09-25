@@ -7,6 +7,7 @@ int tam = 3; // board size. DO NOT CHANGE
 //functions
 void printBoard(char board[tam][tam], int tam);
 void resetBoard(char board[tam][tam], int tam);
+void clearScreen(void); //have to ajust for WINDOWS AND LINUX
 char playerLetterInput(void);
 char playerType(void);
 char otherPlayerType(char p1Type);
@@ -16,7 +17,6 @@ int validPlay(char board[tam][tam], int tam, int number);
 int inputLin(int number);
 int inputCol(int number);
 int checkWin(char board[tam][tam], int tam, char type);
-void clearScreen(void); //have to ajust for WINDOWS AND LINUX
 
 //main
 int main(){
