@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-int tam = 3; // board size. DO NOT CHANGE
+const int tam = 3; // board size. DO NOT CHANGE
 
 //functions
 void printBoard(char board[tam][tam], int tam);
@@ -17,9 +17,15 @@ int validPlay(char board[tam][tam], int tam, int number);
 int inputLin(int number);
 int inputCol(int number);
 int checkWin(char board[tam][tam], int tam, char type);
+int game();
+
+int main(){
+    game();
+    return 0;
+}
 
 //main
-int main(){
+int game(){
     char board[tam][tam], p1Type, p2Type;
     int lin, col, turn;
     int gameOn, pInput;
